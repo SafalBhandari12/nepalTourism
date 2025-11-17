@@ -120,7 +120,7 @@ export const signatureJourneys: SignatureJourney[] = [
     duration: "16 days",
     difficulty: "Challenging",
     season: "Mar–Jun • Oct–Dec",
-    image: "/annapurnaCircuit.jpg",
+    image: "/annapurnacircuit.jpg",
   },
   {
     id: "poonhill",
