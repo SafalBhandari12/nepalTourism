@@ -86,17 +86,21 @@ export default function StaggeredMenuSimple({
       {/* Header */}
       <header
         className={`absolute top-0 left-0 right-0 flex items-center justify-between z-[60] transition-all duration-500 ease-out w-full ${
-          open ? "h-24 px-6 bg-transparent" : "h-24 px-6 bg-transparent"
+          open
+            ? "h-16 px-4 md:px-6 bg-transparent"
+            : "h-16 px-4 md:px-6 bg-transparent"
         }`}
       >
-        <div className='pointer-events-auto'>
+        <div className='pointer-events-auto flex-shrink-0 max-w-[80px] md:max-w-[120px]'>
           <Image
             src='/logo.png'
             alt='logo'
             className={`object-contain transition-all duration-500 ease-out ${
-              open || !scrolled ? "h-16" : "h-12"
+              open || !scrolled
+                ? "h-12 w-12 md:h-12 md:w-12"
+                : "h-10 w-10 md:h-10 md:w-10"
             }`}
-            width={176}
+            width={120}
             height={48}
           />
         </div>
@@ -172,7 +176,7 @@ export default function StaggeredMenuSimple({
         className={`fixed top-0 bottom-0 h-full bg-white/95 backdrop-blur-md z-[50] p-6 md:p-24 w-full md:w-[clamp(260px,38vw,420px)] transition-transform duration-600 ease-out ${
           open ? "translate-x-0" : offClass
         } ${position === "left" ? "left-0" : "right-0"} ${
-          scrolled ? "pt-20" : "pt-28"
+          scrolled ? "pt-16" : "pt-20"
         }`}
         style={{
           transitionDelay: open ? "450ms" : "0ms",

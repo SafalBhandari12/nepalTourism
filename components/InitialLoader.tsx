@@ -17,7 +17,7 @@ export default function InitialLoader() {
         const event = new CustomEvent("loaderComplete");
         window.dispatchEvent(event);
       }, 500);
-    }, 3500);
+    }, 2500);
 
     return () => clearTimeout(timer);
   }, []);

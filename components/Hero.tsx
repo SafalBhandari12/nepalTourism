@@ -1,12 +1,16 @@
 "use client";
 import StaggeredMenuSimple from "./StaggeredMenuSimple";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { motion } from "motion/react";
 
 const menuItems = [
   { label: "Home", link: "/" },
   { label: "About", link: "#about" },
+  { label: "Gallery", link: "#gallery" },
+  { label: "Journeys", link: "#journeys" },
+  { label: "Culture", link: "#culture" },
+  { label: "Experiences", link: "/experiences" },
   { label: "Map", link: "/map" },
-  { label: "Destinations", link: "#services" },
   { label: "Contact", link: "#contact" },
 ];
 const socialItems = [
@@ -17,27 +21,45 @@ const socialItems = [
   { label: "WhatsApp", link: "https://wa.me/977xxxxxxxxxx" },
 ];
 
+const showcaseStats = [
+  { label: "Private routes", value: "27 curated" },
+  { label: "Local experts", value: "48 hosts" },
+  { label: "Altitude ready", value: "6,000 m+" },
+];
+
 export default function Hero() {
   const [videoSrc, setVideoSrc] = useState<string | null>(null);
+  const [shouldAutoPlay, setShouldAutoPlay] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     // Determine video source once on mount
-    const src = "/bannerVideo.mp4";
+    const src = "/bannerVideo1.mp4";
     setVideoSrc(src);
+
+    // Delay autoplay until loader is done (adjust timeout as needed)
+    const timer = setTimeout(() => {
+      setShouldAutoPlay(true);
+      if (videoRef.current) {
+        videoRef.current.play().catch((err) => console.log("Play error:", err));
+      }
+    }, 3000); // Adjust this based on your loader duration
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <section className='relative w-full h-screen overflow-hidden'>
+    <section className='relative w-full h-screen overflow-hidden bg-black'>
       {/* fullscreen video background - only load appropriate video */}
       {videoSrc && (
         <video
+          ref={videoRef}
           className='absolute inset-0 w-full h-full object-cover'
           src={videoSrc}
-          autoPlay
           loop
           muted
           playsInline
-          preload='metadata'
+          preload='auto'
           aria-hidden
         />
       )}
@@ -52,7 +74,8 @@ export default function Hero() {
         />
       </div>
 
-      {/* Centered heading above the video */}
+      {/* Ambient gradient for readable overlay */}
+      <div className='absolute inset-0 z-10 bg-gradient-to-b from-black/40 via-black/60 to-black/85' />
     </section>
   );
 }

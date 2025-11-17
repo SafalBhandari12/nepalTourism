@@ -1,7 +1,7 @@
 import Hero from "@/components/Hero";
 import About from "@/components/About";
-import InteractiveNepalMap from "@/components/InteractiveNepalMap";
-import Products from "@/components/Products";
+import ScenicShowcase from "@/components/ScenicShowcase";
+import SignatureJourneys from "@/components/SignatureJourneys";
 import MoreAbout from "@/components/MoreAbout";
 import Footer from "@/components/Footer";
 
@@ -10,7 +10,8 @@ export default function Home() {
     <>
       <Hero />
       <About />
-      <Products />
+      <ScenicShowcase />
+      <SignatureJourneys />
       <MoreAbout />
       <Footer />
     </>
