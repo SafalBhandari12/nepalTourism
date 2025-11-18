@@ -38,12 +38,16 @@ export default function Hero() {
     setVideoSrc(src);
 
     // Delay autoplay until loader is done (adjust timeout as needed)
+    // Use 2000ms for mobile, 3000ms for desktop
+    const isMobile = window.innerWidth < 768;
+    const timeout = isMobile ? 1000 : 3000;
+
     const timer = setTimeout(() => {
       setShouldAutoPlay(true);
       if (videoRef.current) {
         videoRef.current.play().catch((err) => console.log("Play error:", err));
       }
-    }, 3000); // Adjust this based on your loader duration
+    }, timeout);
 
     return () => clearTimeout(timer);
   }, []);

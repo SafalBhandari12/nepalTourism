@@ -8,7 +8,7 @@ export default function ScenicShowcase() {
   return (
     <motion.section
       id='gallery'
-      className='relative w-full bg-[#f7f2ea] text-[#1b1309] py-20 md:py-28 overflow-hidden'
+      className='relative w-full bg-[#f7f2ea] text-[#1b1309] py-12 md:py-20 overflow-hidden'
       initial='hidden'
       whileInView='visible'
       viewport={{ once: true, amount: 0.2 }}

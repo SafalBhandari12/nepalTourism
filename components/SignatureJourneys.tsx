@@ -1,152 +1,241 @@
 "use client";
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { signatureJourneys } from "@/lib/showcaseData";
+import gsap from "gsap";
+import { ScrollTrigger, ScrollToPlugin } from "gsap/all";
+
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 export default function SignatureJourneys() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const panelsContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (window.innerWidth < 768) return; // Only on desktop
+
+    const panels = gsap.utils.toArray<HTMLElement>(".journey-panel");
+    const container = panelsContainerRef.current;
+
+    if (!container || panels.length === 0) return;
+
+    const tween = gsap.to(panels, {
+      x: () => -1 * (container.scrollWidth - window.innerWidth),
+      ease: "none",
+      scrollTrigger: {
+        trigger: container,
+        pin: true,
+        start: "top top",
+        scrub: 1,
+        end: () => "+=" + (container.scrollWidth - window.innerWidth),
+        markers: false,
+      },
+    });
+
+    // Anchor navigation
+    document.querySelectorAll(".journey-anchor").forEach((anchor) => {
+      anchor.addEventListener("click", function (e: Event) {
+        e.preventDefault();
+        const href = (e.currentTarget as HTMLAnchorElement).getAttribute(
+          "href"
+        );
+        const targetElem = document.querySelector(href || "");
+
+        if (
+          targetElem &&
+          container.contains(targetElem) &&
+          tween.scrollTrigger
+        ) {
+          const panelIndex = panels.indexOf(targetElem as HTMLElement);
+          if (panelIndex === -1) return;
+
+          let totalScroll = tween.scrollTrigger.end - tween.scrollTrigger.start;
+          let panelWidth = window.innerWidth;
+          let scrollAmount = panelIndex * panelWidth;
+          let y = Math.round(
+            tween.scrollTrigger.start +
+              (scrollAmount / (container.scrollWidth - window.innerWidth)) *
+                totalScroll
+          );
+
+          gsap.to(window, {
+            scrollTo: { y: y, autoKill: false },
+            duration: 1,
+          });
+        }
+      });
+    });
+
+    return () => {
+      tween.scrollTrigger?.kill();
+    };
+  }, []);
+
   return (
-    <motion.section
+    <section
+      ref={containerRef}
       id='journeys'
-      className='relative overflow-hidden bg-gradient-to-b from-[#f7f1e7] via-[#f2ebe0] to-[#ede2d3] py-20 md:py-28'
-      initial='hidden'
-      whileInView='visible'
-      viewport={{ once: true, amount: 0.2 }}
+      className='relative hidden md:block'
     >
-      <div className='pointer-events-none absolute inset-x-0 top-10 mx-auto h-72 w-[80%] rounded-[5rem] bg-gradient-to-r from-white/60 via-transparent to-white/60 blur-3xl' />
-      <div className='pointer-events-none absolute -bottom-32 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-gradient-to-b from-[#fcedd8]/60 to-transparent blur-3xl' />
-      <div className='relative mx-auto max-w-6xl px-6 lg:px-10'>
-        <motion.div
-          className='flex flex-col gap-4 md:max-w-3xl'
-          variants={{
-            hidden: { opacity: 0, y: 40 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-          }}
-        >
-          <div className='inline-flex items-center gap-3 text-xs uppercase tracking-[0.5em] text-[#957450]'>
-            <span className='h-px w-8 bg-[#b7956c]/60' /> Signature journeys
-          </div>
-          <h2 className='text-3xl font-semibold leading-tight text-[#181109] md:text-5xl'>
-            Trekking classics, reimagined with private comforts.
-          </h2>
-          <p className='text-base text-[#4c3c2c] md:text-lg'>
-            Helicopter shuttles, curated lodges, and altitude-aware pacing
-            ensure each trail stays indulgent without diluting authenticity.
-          </p>
-        </motion.div>
+      {/* Header Section - stays in viewport */}
+      <div className='relative bg-gradient-to-b from-[#f7f1e7] via-[#f2ebe0] to-[#ede2d3] py-20 md:py-28'>
+        <div className='pointer-events-none absolute inset-x-0 top-10 mx-auto h-72 w-[80%] rounded-[5rem] bg-gradient-to-r from-white/60 via-transparent to-white/60 blur-3xl' />
+        <div className='pointer-events-none absolute -bottom-32 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-gradient-to-b from-[#fcedd8]/60 to-transparent blur-3xl' />
+        <div className='relative mx-auto max-w-6xl px-6 lg:px-10'>
+          <motion.div
+            className='flex flex-col gap-4 md:max-w-3xl'
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0, transition: { duration: 0.8 } }}
+            viewport={{ once: true }}
+          >
+            <div className='inline-flex items-center gap-3 text-xs uppercase tracking-[0.5em] text-[#957450]'>
+              <span className='h-px w-8 bg-[#b7956c]/60' /> Signature journeys
+            </div>
+            <h2 className='text-3xl font-semibold leading-tight text-[#181109] md:text-5xl'>
+              Trekking classics, reimagined with private comforts.
+            </h2>
+            <p className='text-base text-[#4c3c2c] md:text-lg'>
+              Helicopter shuttles, curated lodges, and altitude-aware pacing
+              ensure each trail stays indulgent without diluting authenticity.
+            </p>
+          </motion.div>
+        </div>
+      </div>
 
-        <div className='relative mt-12'>
-          <div className='pointer-events-none absolute inset-y-0 left-0 hidden w-10 bg-gradient-to-r from-[#f4efe6] to-transparent sm:block' />
-          <div className='pointer-events-none absolute inset-y-0 right-0 hidden w-10 bg-gradient-to-l from-[#f4efe6] to-transparent sm:block' />
-
-          <div className='-mx-6 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-6 pl-6 pr-12 sm:mx-0 sm:pl-0 sm:pr-6'>
-            {signatureJourneys.map((journey, index) => (
-              <motion.article
-                key={journey.id}
-                className='group relative snap-center shrink-0 w-[280px] sm:w-[360px]'
-                variants={{
-                  hidden: { opacity: 0, y: 50 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: { delay: 0.1 * index, duration: 0.6 },
-                  },
-                }}
+      {/* Horizontal Scrolling Panels */}
+      <div
+        ref={panelsContainerRef}
+        className='relative w-screen overflow-hidden bg-gradient-to-b from-[#ede2d3] to-[#ede2d3]'
+      >
+        <div className='flex w-max'>
+          {signatureJourneys.map((journey, index) => (
+            <article
+              key={journey.id}
+              id={`journey-${journey.id}`}
+              className={`journey-panel relative flex-shrink-0 overflow-hidden ${
+                journey.id === "mustang-jeep"
+                  ? "w-[calc(100vw+50vh)]"
+                  : "w-screen"
+              }`}
+            >
+              <div
+                className={`flex h-screen ${
+                  journey.id === "mustang-jeep"
+                    ? "w-[calc(100vw+50vh)]"
+                    : "w-screen"
+                }`}
               >
-                <div className='absolute inset-0 rounded-[2.25rem] bg-gradient-to-br from-white via-white/90 to-[#f7efe7] opacity-90 transition duration-500 group-hover:opacity-100' />
-                <div className='absolute inset-0 rounded-[2.25rem] border border-white/70 shadow-[0_35px_80px_rgba(15,23,42,0.1)]' />
-                <div className='relative flex h-full flex-col overflow-hidden rounded-[2.25rem] backdrop-blur'>
-                  <div className='relative h-56 overflow-hidden'>
-                    <Image
-                      src={journey.image}
-                      alt={journey.title}
-                      fill
-                      sizes='(max-width: 640px) 90vw, 360px'
-                      className='object-cover transition duration-700 ease-out group-hover:scale-105'
-                    />
-                    <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent' />
-                    <div className='absolute top-4 right-4 flex items-center gap-2 text-[0.6rem] uppercase tracking-[0.35em] text-white/90'>
-                      <span className='h-px w-8 bg-white/50' />
-                      {journey.difficulty}
-                    </div>
-                    <div className='absolute bottom-4 left-4 text-xs uppercase tracking-[0.35em] text-white'>
-                      {journey.region}
-                    </div>
-                  </div>
+                {/* Left Column - Image */}
+                <div className='w-1/2 relative overflow-hidden'>
+                  <Image
+                    src={journey.image}
+                    alt={journey.title}
+                    fill
+                    sizes='50vw'
+                    className='object-cover'
+                    priority={index < 2}
+                  />
+                  <div className='absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent' />
+                </div>
 
-                  <div className='flex flex-1 flex-col gap-5 p-6 text-[#181109]'>
-                    <div className='flex items-start justify-between gap-4'>
-                      <div>
-                        <h3 className='text-xl font-semibold leading-snug'>
-                          {journey.title}
-                        </h3>
-                        <p className='mt-2 text-sm text-[#6a5a48]'>
-                          {journey.description}
-                        </p>
-                      </div>
-                      <span className='rounded-full bg-[#f4e6d3] px-3 py-1 text-[0.6rem] uppercase tracking-[0.35em] text-[#a37544]'>
-                        Elite
+                {/* Right Column - Content */}
+                <div className='w-1/2 flex flex-col items-center justify-center px-12 py-16 bg-gradient-to-br from-white/95 via-[#faf8f5] to-[#f5f1ed]'>
+                  <div className='max-w-lg'>
+                    <div className='mb-4 flex items-center gap-3'>
+                      <span className='text-[0.6rem] uppercase tracking-[0.35em] text-[#957450]'>
+                        {journey.region}
+                      </span>
+                      <span className='text-[0.6rem] uppercase tracking-[0.35em] text-white/90 bg-[#957450] px-3 py-1 rounded-full'>
+                        {journey.difficulty}
                       </span>
                     </div>
 
-                    <dl className='grid grid-cols-2 gap-4 text-sm text-[#3f2f1f]'>
-                      <div className='rounded-2xl border border-black/5 p-3'>
-                        <dt className='text-[0.6rem] uppercase tracking-[0.35em] text-[#b2a08c]'>
+                    <h2 className='text-4xl font-bold leading-tight text-[#181109] mb-6'>
+                      {journey.title}
+                    </h2>
+
+                    <p className='text-lg text-[#4c3c2c] mb-8 leading-relaxed'>
+                      {journey.description}
+                    </p>
+
+                    <div className='grid grid-cols-3 gap-4 mb-8'>
+                      <div className='rounded-2xl border border-[#957450]/20 bg-white/50 p-4'>
+                        <dt className='text-[0.6rem] uppercase tracking-[0.35em] text-[#b2a08c] font-semibold'>
+                          Distance
+                        </dt>
+                        <dd className='mt-2 text-2xl font-bold text-[#181109]'>
+                          {journey.distance}
+                        </dd>
+                      </div>
+                      <div className='rounded-2xl border border-[#957450]/20 bg-white/50 p-4'>
+                        <dt className='text-[0.6rem] uppercase tracking-[0.35em] text-[#b2a08c] font-semibold'>
                           Days
                         </dt>
-                        <dd className='mt-1 text-lg font-semibold'>
+                        <dd className='mt-2 text-2xl font-bold text-[#181109]'>
                           {journey.duration}
                         </dd>
                       </div>
-                      <div className='rounded-2xl border border-black/5 p-3'>
-                        <dt className='text-[0.6rem] uppercase tracking-[0.35em] text-[#b2a08c]'>
-                          Difficulty
-                        </dt>
-                        <dd className='mt-1 text-lg font-semibold'>
-                          {journey.difficulty}
-                        </dd>
-                      </div>
-                      <div className='rounded-2xl border border-black/5 p-3 col-span-2'>
-                        <dt className='text-[0.6rem] uppercase tracking-[0.35em] text-[#b2a08c]'>
+                      <div className='rounded-2xl border border-[#957450]/20 bg-white/50 p-4'>
+                        <dt className='text-[0.6rem] uppercase tracking-[0.35em] text-[#b2a08c] font-semibold'>
                           Season
                         </dt>
-                        <dd className='mt-1 text-lg font-semibold'>
-                          {journey.season}
+                        <dd className='mt-2 text-base font-bold text-[#181109]'>
+                          {journey.season.split(" • ")[0]}
                         </dd>
                       </div>
-                    </dl>
+                    </div>
 
-                    <div className='flex items-center justify-between border-t border-black/5 pt-4 text-[0.6rem] uppercase tracking-[0.35em] text-[#9c8772]'>
-                      <div className='flex flex-wrap gap-2'>
-                        <span className='rounded-full border border-black/5 px-3 py-1'>
-                          Boutique stays
-                        </span>
-                        <span className='rounded-full border border-black/5 px-3 py-1'>
-                          Slow pace
-                        </span>
-                      </div>
-                      <span className='inline-flex items-center gap-2 text-[#7a5d42]'>
-                        Tailored
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          viewBox='0 0 24 24'
-                          className='h-4 w-4'
-                          fill='none'
-                          stroke='currentColor'
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                          strokeWidth={1.5}
+                    {/* Navigation Buttons */}
+                    <div className='flex items-center justify-between gap-4'>
+                      {index > 0 && (
+                        <a
+                          href={`#journey-${signatureJourneys[index - 1].id}`}
+                          className='journey-anchor group flex items-center gap-2 px-6 py-3 rounded-full border-2 border-[#957450] text-[#957450] hover:bg-[#957450] hover:text-white transition-all'
                         >
-                          <path d='M5 12h14M13 6l6 6-6 6' />
-                        </svg>
-                      </span>
+                          <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            viewBox='0 0 24 24'
+                            className='h-4 w-4'
+                            fill='none'
+                            stroke='currentColor'
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                            strokeWidth={2}
+                          >
+                            <path d='M15 19l-7-7 7-7' />
+                          </svg>
+                          Previous
+                        </a>
+                      )}
+                      {index < signatureJourneys.length - 1 && (
+                        <a
+                          href={`#journey-${signatureJourneys[index + 1].id}`}
+                          className='journey-anchor group flex items-center gap-2 px-6 py-3 rounded-full border-2 border-[#957450] text-white bg-[#957450] hover:bg-[#7a5d42] transition-all'
+                        >
+                          Next
+                          <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            viewBox='0 0 24 24'
+                            className='h-4 w-4'
+                            fill='none'
+                            stroke='currentColor'
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                            strokeWidth={2}
+                          >
+                            <path d='M9 5l7 7-7 7' />
+                          </svg>
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
-              </motion.article>
-            ))}
-          </div>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

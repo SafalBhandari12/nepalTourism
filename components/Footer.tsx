@@ -12,7 +12,7 @@ export default function Footer() {
             <h2 className='font-bold leading-tight text-white text-[1.8rem] sm:text-[2.8rem] md:text-[3.6rem] lg:text-[4.8rem]'>
               <div className='block'>
                 <BlurText
-                  text={"Ready to explore"}
+                  text={"Get in touch"}
                   animateBy='words'
                   delay={2}
                   className='block whitespace-nowrap'
@@ -21,7 +21,7 @@ export default function Footer() {
 
               <div className='block -mt-1'>
                 <BlurText
-                  text={"Nepal today?"}
+                  text={"with us today."}
                   animateBy='words'
                   delay={6}
                   className='block'
@@ -34,7 +34,7 @@ export default function Footer() {
           <div className='w-full lg:w-1/2 max-w-md text-left flex flex-col items-start gap-8'>
             <BlurText
               text={
-                "Start your unforgettable journey to Nepal now. Book your customized tour package with our expert guides and experience the magic of the Himalayas, vibrant culture, and warm hospitality that make Nepal truly special."
+                "Have questions about your Nepal adventure? Our expert team is ready to craft the perfect itinerary for you. Reach out today and let's start planning your dream journey to the Himalayas. We're here to help make your experience unforgettable."
               }
               animateBy='words'
               delay={10}
@@ -48,7 +48,7 @@ export default function Footer() {
               className='inline-block bg-[#d6df3a] text-black font-semibold rounded-full px-10 py-4 shadow-md hover:brightness-95 transition'
             >
               <BlurText
-                text={"BOOK YOUR TOUR"}
+                text={"CONTACT US"}
                 animateBy='words'
                 delay={15}
                 className='text-black text-sm md:text-base font-medium'

@@ -32,13 +32,13 @@ export default function About() {
       </div>
 
       {/* Bottom-right paragraph (animated) */}
-      <div className='mt-28  self-end'>
+      <div className='mt-10  self-end'>
         <SplitText
           text={
             "Explore the breathtaking Himalayas, immerse yourself in rich cultural heritage, and experience unforgettable adventures. From serene spiritual retreats to thrilling treks, Nepal offers something for every traveler seeking authentic experiences and natural beauty."
           }
           tag='p'
-          className='inline-block w-full max-w-[680px] text-lg md:text-xl lg:text-2xl text-black/90 leading-relaxed font-normal'
+          className='inline-block w-full max-w-[680px] text-base md:text-lg lg:text-xl text-black/90 leading-relaxed font-normal'
           delay={3}
           duration={0.45}
           ease='power3.out'

@@ -17,7 +17,7 @@ export type SignatureJourney = {
   description: string;
   distance: string;
   duration: string;
-  difficulty: "Moderate" | "Challenging" | "Leisure";
+  difficulty: "Moderate" | "Hard" | "Leisure";
   season: string;
   image: string;
 };
@@ -106,7 +106,7 @@ export const signatureJourneys: SignatureJourney[] = [
       "Classic alpine lodges, hanging bridges, and glacier valleys culminating at 5,545 m sunrise views.",
     distance: "130 km",
     duration: "14 days",
-    difficulty: "Challenging",
+    difficulty: "Hard",
     season: "Mar–May • Sep–Nov",
     image: "/baseCamp.jpg",
   },
@@ -118,7 +118,7 @@ export const signatureJourneys: SignatureJourney[] = [
       "Traverse rhododendron forests to high desert plateaus, crossing Thorong-La and detouring to turquoise Tilicho.",
     distance: "160 km",
     duration: "16 days",
-    difficulty: "Challenging",
+    difficulty: "Hard",
     season: "Mar–Jun • Oct–Dec",
     image: "/annapurnacircuit.jpg",
   },

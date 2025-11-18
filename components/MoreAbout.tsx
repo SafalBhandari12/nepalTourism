@@ -5,8 +5,8 @@ import BlurText from "@/components/BlurText";
 export default function MoreAbout() {
   const features = [
     {
-      title: "Expert Local Guides",
-      text: "Experienced guides with deep knowledge of Nepali culture, history, and nature. They provide authentic experiences and ensure your safety throughout the journey.",
+      title: "Expert Travel Planning",
+      text: "Meticulously crafted itineraries designed around your interests and preferences. Our team ensures every detail is perfect, from transportation to accommodations and activities.",
       icon: (
         <svg
           width='40'
@@ -117,28 +117,28 @@ export default function MoreAbout() {
       <div className='text-center leading-none w-full max-w-8xl px-4 sm:px-6 md:px-8'>
         <div className='mb-2'>
           <BlurText
-            text={"Why Choose"}
+            text={"Unforgettable"}
             animateBy='letters'
             delay={1}
-            className={`text-[#2c5aa0] font-bold text-[2.8rem] sm:text-[5rem] md:text-[7rem] lg:text-[8.5rem] xl:text-[9.5rem] leading-tight justify-center inline-block`}
+            className={`text-[#2c5aa0] font-bold text-[2rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] xl:text-[7.5rem] leading-tight justify-center inline-block`}
           />
         </div>
 
         <div className='-mt-4'>
           <BlurText
-            text={"Nepal Tours"}
+            text={"Nepal Adventures"}
             animateBy='letters'
             delay={3}
-            className={`text-[#2c5aa0] font-bold text-[2.8rem] sm:text-[5rem] md:text-[7rem] lg:text-[8.5rem] xl:text-[9.5rem] leading-tight justify-center inline-block`}
+            className={`text-[#2c5aa0] font-bold text-[2rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] xl:text-[7.5rem] leading-tight justify-center inline-block`}
           />
         </div>
 
         <div className='-mt-4'>
           <BlurText
-            text={"With Us."}
+            text={"Await You."}
             animateBy='letters'
             delay={5}
-            className={`text-[#2c5aa0] font-bold text-[2.8rem] sm:text-[5rem] md:text-[7rem] lg:text-[8.5rem] xl:text-[9.5rem] leading-tight justify-center inline-block`}
+            className={`text-[#2c5aa0] font-bold text-[2rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] xl:text-[7.5rem] leading-tight justify-center inline-block`}
           />
         </div>
 
@@ -153,7 +153,7 @@ export default function MoreAbout() {
                   text={f.title}
                   animateBy='words'
                   delay={i * 2 + 7}
-                  className='text-black text-2xl md:text-3xl font-semibold'
+                  className='text-black text-xl md:text-2xl font-semibold'
                 />
 
                 <div className='mt-3'>

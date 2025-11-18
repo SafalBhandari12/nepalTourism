@@ -105,40 +105,62 @@ export default function StaggeredMenuSimple({
           />
         </div>
 
-        <button
-          aria-expanded={open}
-          aria-controls='menu-panel'
-          onClick={() => setOpen((s) => !s)}
-          className={`pointer-events-auto cursor-pointer inline-flex items-center gap-3 bg-transparent hover:bg-white/10 text-white rounded-md focus:outline-none focus-visible:ring focus-visible:ring-white/30 transition-all duration-500 ease-out ${
-            open || !scrolled ? "px-3 py-2" : "px-2 py-1.5"
-          }`}
-        >
-          <span
-            className={`inline-block font-medium transition-all duration-500 ease-out ${
-              open ? "text-black" : "text-white"
-            } ${open || !scrolled ? "w-12 text-sm" : "w-10 text-xs"}`}
+        {!open && (
+          <button
+            aria-expanded={open}
+            aria-controls='menu-panel'
+            onClick={() => setOpen((s) => !s)}
+            className={`pointer-events-auto cursor-pointer inline-flex items-center gap-3 bg-transparent hover:bg-white/10 text-white rounded-md focus:outline-none focus-visible:ring focus-visible:ring-white/30 transition-all duration-500 ease-out ${
+              open || !scrolled ? "px-3 py-2" : "px-2 py-1.5"
+            }`}
           >
-            {open ? "Close" : "Menu"}
-          </span>
+            <span
+              className={`inline-block font-medium transition-all duration-500 ease-out ${
+                open ? "text-black" : "text-white"
+              } ${open || !scrolled ? "w-12 text-sm" : "w-10 text-xs"}`}
+            >
+              {open ? "Close" : "Menu"}
+            </span>
 
-          {/* Hamburger Icon */}
-          <span
-            className={`relative inline-flex items-center justify-center transition-all duration-500 ease-out ${
-              open ? "text-black" : "text-white"
-            } ${open || !scrolled ? "w-4 h-4" : "w-3 h-3"}`}
+            {/* Hamburger Icon */}
+            <span
+              className={`relative inline-flex items-center justify-center transition-all duration-500 ease-out ${
+                open ? "text-black" : "text-white"
+              } ${open || !scrolled ? "w-4 h-4" : "w-3 h-3"}`}
+            >
+              <span
+                className={`absolute left-1/2 top-1/2 block bg-current transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${
+                  open ? "rotate-45" : "rotate-0"
+                } ${open || !scrolled ? "w-6 h-[2px]" : "w-4 h-[1.5px]"}`}
+              />
+              <span
+                className={`absolute left-1/2 top-1/2 block bg-current transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${
+                  open ? "-rotate-45" : "rotate-90"
+                } ${open || !scrolled ? "w-6 h-[2px]" : "w-4 h-[1.5px]"}`}
+              />
+            </span>
+          </button>
+        )}
+
+        {open && (
+          <button
+            aria-expanded={open}
+            aria-controls='menu-panel'
+            onClick={() => setOpen((s) => !s)}
+            className={`fixed ${
+              position === "left" ? "left-6" : "right-6"
+            } top-6 z-[55] pointer-events-auto cursor-pointer inline-flex items-center gap-3 bg-transparent hover:bg-white/10 text-black rounded-md focus:outline-none focus-visible:ring focus-visible:ring-white/30 transition-all duration-500 ease-out ${
+              scrolled ? "px-2 py-1.5" : "px-3 py-2"
+            }`}
           >
-            <span
-              className={`absolute left-1/2 top-1/2 block bg-current transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${
-                open ? "rotate-45" : "rotate-0"
-              } ${open || !scrolled ? "w-6 h-[2px]" : "w-4 h-[1.5px]"}`}
-            />
-            <span
-              className={`absolute left-1/2 top-1/2 block bg-current transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${
-                open ? "-rotate-45" : "rotate-90"
-              } ${open || !scrolled ? "w-6 h-[2px]" : "w-4 h-[1.5px]"}`}
-            />
-          </span>
-        </button>
+            <span className={`inline-block font-medium transition-all duration-500 ease-out ${scrolled ? "w-10 text-xs" : "w-12 text-sm"}`}>Close</span>
+            {/* Close X Icon */}
+            <span className={`relative inline-flex items-center justify-center transition-all duration-500 ease-out ${scrolled ? "w-3 h-3" : "w-4 h-4"}`}>
+              <span className={`absolute left-1/2 top-1/2 block bg-black transform -translate-x-1/2 -translate-y-1/2 rotate-45 ${scrolled ? "w-4 h-[1.5px]" : "w-6 h-[2px]"}`} />
+              <span className={`absolute left-1/2 top-1/2 block bg-black transform -translate-x-1/2 -translate-y-1/2 -rotate-45 ${scrolled ? "w-4 h-[1.5px]" : "w-6 h-[2px]"}`} />
+            </span>
+          </button>
+        )}
       </header>
 
       {/* Overlay for mobile menu */}
