@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import InitialLoader from "@/components/InitialLoader";
+import BackgroundMusic from "@/components/BackgroundMusic";
 
 export default function ClientLayout({
   children,
@@ -16,29 +17,30 @@ export default function ClientLayout({
       setTimeout(() => {
         setShowContent(true);
         // Re-enable scrolling
-        if (typeof document !== 'undefined') {
-          document.body.style.overflow = '';
+        if (typeof document !== "undefined") {
+          document.body.style.overflow = "";
         }
       }, 300);
     };
 
     // Custom event listener for loader completion
-    window.addEventListener('loaderComplete', handleLoaderComplete);
+    window.addEventListener("loaderComplete", handleLoaderComplete);
 
     return () => {
-      window.removeEventListener('loaderComplete', handleLoaderComplete);
+      window.removeEventListener("loaderComplete", handleLoaderComplete);
     };
   }, []);
 
   return (
     <>
+      <BackgroundMusic />
       <InitialLoader />
-      <div 
+      <div
         className={`transition-opacity duration-700 ${
-          showContent ? 'opacity-100' : 'opacity-0'
+          showContent ? "opacity-100" : "opacity-0"
         }`}
-        style={{ 
-          visibility: showContent ? 'visible' : 'hidden',
+        style={{
+          visibility: showContent ? "visible" : "hidden",
         }}
       >
         {children}

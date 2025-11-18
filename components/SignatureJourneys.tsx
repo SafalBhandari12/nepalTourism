@@ -28,7 +28,7 @@ export default function SignatureJourneys() {
         pin: true,
         start: "top top",
         scrub: 1,
-        end: () => "+=" + (container.scrollWidth - window.innerWidth),
+        end: () => "+=" + (container.scrollWidth - window.innerWidth - 100),
         markers: false,
       },
     });
@@ -50,10 +50,11 @@ export default function SignatureJourneys() {
           const panelIndex = panels.indexOf(targetElem as HTMLElement);
           if (panelIndex === -1) return;
 
-          let totalScroll = tween.scrollTrigger.end - tween.scrollTrigger.start;
-          let panelWidth = window.innerWidth;
-          let scrollAmount = panelIndex * panelWidth;
-          let y = Math.round(
+          const totalScroll =
+            tween.scrollTrigger.end - tween.scrollTrigger.start;
+          const panelWidth = window.innerWidth;
+          const scrollAmount = panelIndex * panelWidth;
+          const y = Math.round(
             tween.scrollTrigger.start +
               (scrollAmount / (container.scrollWidth - window.innerWidth)) *
                 totalScroll
@@ -113,19 +114,9 @@ export default function SignatureJourneys() {
             <article
               key={journey.id}
               id={`journey-${journey.id}`}
-              className={`journey-panel relative flex-shrink-0 overflow-hidden ${
-                journey.id === "mustang-jeep"
-                  ? "w-[calc(100vw+50vh)]"
-                  : "w-screen"
-              }`}
+              className='journey-panel relative flex-shrink-0 overflow-hidden w-screen'
             >
-              <div
-                className={`flex h-screen ${
-                  journey.id === "mustang-jeep"
-                    ? "w-[calc(100vw+50vh)]"
-                    : "w-screen"
-                }`}
-              >
+              <div className='flex h-screen w-screen'>
                 {/* Left Column - Image */}
                 <div className='w-1/2 relative overflow-hidden'>
                   <Image
